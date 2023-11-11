@@ -11,15 +11,20 @@ const initialFilter: VehicleFilter = {
 
 export default function App() {
     const [vehicles, setVehicles] = useState<Vehicle[]>([]);
+    const [filter, setFilter] = useState<VehicleFilter>(initialFilter);
 
     useEffect(() => {
-        const data = VehicleApi.search(initialFilter);
+        const data = VehicleApi.search(filter);
         setVehicles(data);
-    }, []);
+    }, [filter]);
+
+    function handleFind(filterParam: VehicleFilter): void {
+        setFilter(filterParam);
+    }
 
     return (
         <>
-            <Filter />
+            <Filter callbackFilterChange={handleFind} />
             <Table vehicles={vehicles} />
         </>
     );
